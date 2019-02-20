@@ -11,8 +11,9 @@
 
 #include <iostream>
 #include "Item.hpp"
-#include <math.h>
+#include <algorithm>
+#include <vector>
 
-int knapsack(int maxWeight, int numItems, Item items[numItems]);
+int knapsack(int maxWeight, int numItems, std::vector<Item> items);
 
 #endif /* grokking_hpp */

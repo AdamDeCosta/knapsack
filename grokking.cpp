@@ -8,7 +8,7 @@
 
 #include "grokking.hpp"
 
-int knapsack(int maxWeight, int numItems, Item items[numItems]) {
+int knapsack(int maxWeight, int numItems, std::vector<Item> items) {
     // Base cases
     if (numItems == 0)
         return 0;
@@ -16,7 +16,10 @@ int knapsack(int maxWeight, int numItems, Item items[numItems]) {
         return items[0].getValue();
     // END Base cases
     
-    int grid[numItems][maxWeight+1];
+    int** grid = new int*[numItems];
+	for (int i = 0; i < numItems; i++) {
+		grid[i] = new int[maxWeight + 1];
+	}
     int i, j;
     
     // Fill first column
@@ -52,5 +55,12 @@ int knapsack(int maxWeight, int numItems, Item items[numItems]) {
         std::cout << std::endl;
     }
     
-    return grid[numItems-1][maxWeight];
+	int solution = grid[numItems - 1][maxWeight];
+
+	for (i = 0; i < numItems; i++) {
+		delete[] grid[i];
+	}
+	delete[] grid;
+
+    return solution;
 }

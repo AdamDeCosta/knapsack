@@ -11,9 +11,13 @@
 #include <string>
 #include "Item.hpp"
 #include "grokking.hpp"
+#include <vector>
+
+const std::string INPUT_FILE = "input.txt";
 
 int main(int argc, const char * argv[]) {
-    std::ifstream fin("input.txt");
+
+    std::ifstream fin(INPUT_FILE);
     
     int numItems,
         maxWeight,
@@ -24,15 +28,16 @@ int main(int argc, const char * argv[]) {
     
     if (fin.is_open()) {
         fin >> maxWeight >> numItems;
-        Item items[numItems];
+		std::vector<Item> items;
+		items.reserve(numItems);
+
         for (int i = 0; !fin.eof(); i++) {
             fin >> name >> itemWeight >> itemValue;
-            items[i].setWeight(itemWeight);
-            items[i].setValue(itemValue);
+			items.push_back(Item(itemWeight, itemValue));
         }
         
         std::cout << knapsack(maxWeight, numItems, items) << std::endl;
-        
+
         fin.close();
     }
     
