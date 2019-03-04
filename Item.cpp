@@ -8,33 +8,40 @@
 
 #include "Item.hpp"
 
-int Item::getValue() {
+int Item::getValue()
+{
     return mValue;
 }
 
-int Item::getWeight() {
+int Item::getWeight()
+{
     return mWeight;
 }
 
-void Item::setValue(int value) {
+void Item::setValue(int value)
+{
     mValue = value;
 }
 
-void Item::setWeight(int weight) {
+void Item::setWeight(int weight)
+{
     mWeight = weight;
 }
 
-Item::Item() {
+Item::Item()
+{
     mWeight = 0;
     mValue  = 0;
 }
 
-Item::Item(int weight, int value) {
+Item::Item(int weight, int value)
+{
     mWeight = weight;
     mValue  = value;
 }
 
-std::ostream& operator<<(std::ostream& os, const Item& item) {
+std::ostream& operator<<(std::ostream& os, const Item& item)
+{
     os << "weight: " << item.mWeight << ", value: " << item.mValue;
     return os;
 }

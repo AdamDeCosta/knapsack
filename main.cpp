@@ -11,35 +11,29 @@
 #include <string>
 #include "Item.hpp"
 #include "grokking.hpp"
+#include "util.hpp"
 #include <vector>
 
-const std::string INPUT_FILE = "input.txt";
+const std::string TEST_CASES = "testcases.txt";
 
-int main(int argc, const char * argv[]) {
+int main(int argc, const char * argv[])
+{
+    std::vector<std::ifstream*> testFiles = loadTestFiles(TEST_CASES);
+    std::vector<TestCase> testCases = loadTestCases(testFiles);
+    cleanUpTestFiles(testFiles);
 
-    std::ifstream fin(INPUT_FILE);
+    std::vector<int> results;
+    results.reserve(testCases.size());
     
-    int numItems,
-        maxWeight,
-        itemValue,
-        itemWeight;
-    
-    std::string name;
-    
-    if (fin.is_open()) {
-        fin >> maxWeight >> numItems;
-		std::vector<Item> items;
-		items.reserve(numItems);
-
-        for (int i = 0; !fin.eof(); i++) {
-            fin >> name >> itemWeight >> itemValue;
-			items.push_back(Item(itemWeight, itemValue));
-        }
-        
-        std::cout << knapsack(maxWeight, numItems, items) << std::endl;
-
-        fin.close();
+    // Runs the tests in the test cases
+    for (auto testCase : testCases)
+    {
+        results.push_back(knapsack(testCase.mMaxWeight, testCase.mNumItems, testCase.items));
     }
-    
+
+    // Prints results
+    for (auto result : results) {
+        std::cout << result << std::endl;
+    }
     return 0;
 }

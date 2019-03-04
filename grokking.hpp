@@ -13,6 +13,7 @@
 #include "Item.hpp"
 #include <algorithm>
 #include <vector>
+#include <array>
 
 int knapsack(int maxWeight, int numItems, std::vector<Item> items);
 

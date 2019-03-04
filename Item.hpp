@@ -11,7 +11,8 @@
 
 #include <iostream>
 
-class Item {
+class Item
+{
     
 private:
     int mValue;

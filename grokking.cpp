@@ -8,59 +8,66 @@
 
 #include "grokking.hpp"
 
-int knapsack(int maxWeight, int numItems, std::vector<Item> items) {
+int knapsack(int maxWeight, int numItems, std::vector<Item> items)
+{
     // Base cases
-    if (numItems == 0)
+    if (numItems <= 0 || maxWeight <= 0)
         return 0;
-    if (numItems == 1 && items[0].getWeight() <= maxWeight)
-        return items[0].getValue();
+    if (numItems == 1 && items.at(0).getWeight() <= maxWeight)
+        return items.at(0).getValue();
     // END Base cases
     
-    int** grid = new int*[numItems];
-	for (int i = 0; i < numItems; i++) {
-		grid[i] = new int[maxWeight + 1];
-	}
-    int i, j;
+    std::vector<std::vector<int>> grid;
+    grid.resize(numItems);
     
     // Fill first column
-    for (i = 0; i < numItems; i++) {
-        grid[i][0] = 0;
+    for (auto i = 0; i < numItems; i++)
+    {
+        grid.at(i).resize(maxWeight+1);
     }
-    
+
     // Fill first row
-    for (i = 1; i <= maxWeight; i++) {
-        if (items[0].getWeight() <= i) {
-            grid[0][i] = items[0].getValue();
-        } else {
-            grid[0][i] = grid[0][i-1];
+    for (int i = 1; i <= maxWeight; i++)
+    {
+        if (items.at(0).getWeight() <= i)
+        {
+            grid.at(0).at(i) = items.at(0).getValue();
+        }
+        else
+        {
+            grid.at(0).at(i) = grid.at(0).at(i-1);
         }
     }
     
     // Fill rest of grid
-    for (i = 1; i < numItems; i++) {
-        for (j = 1; j <= maxWeight; j++) {
-            if (items[i].getWeight() > j) {
-                grid[i][j] = grid[i-1][j];
-            } else {
-                grid[i][j] = std::max(grid[i-1][j], items[i].getValue() + grid[i-1][j - items[i].getWeight()]);
+    int i, j;
+    for (i = 1; i < numItems; i++)
+    {
+        for (j = 1; j <= maxWeight; j++)
+        {
+            if (items.at(i).getWeight() > j)
+            {
+                grid.at(i).at(j) = grid.at(i-1).at(j);
+            }
+            else
+            {
+                grid.at(i).at(j) = std::max(grid.at(i-1).at(j), items.at(i).getValue() + grid.at(i-1).at(j - items.at(i).getWeight()));
             }
         }
     }
     
     // Print grid
-    for (i = 0; i < numItems; i++) {
-        for (j = 0; j <= maxWeight; j++) {
-            std::cout << "[ " << grid[i][j] << " ]";
+    /* Uncomment to print out the grid
+    for (auto weights : grid)
+    {
+        for (auto maxValue: weights)
+        {
+            std::cout << "[ " << maxValue << " ]";
         }
         std::cout << std::endl;
     }
-    
-	int solution = grid[numItems - 1][maxWeight];
+    */
 
-	for (i = 0; i < numItems; i++) {
-		delete[] grid[i];
-	}
-	delete[] grid;
 
-    return solution;
+    return grid.at(numItems - 1).at(maxWeight);
 }
